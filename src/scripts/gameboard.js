@@ -21,7 +21,6 @@ export const Gameboard = () => {
   const receiveAttack = (i, j) => {
     if(gameboard[i][j] === true) {
       placeShip.ship.hit()
-      numberOfShips--
       return true
     }  
     return false
