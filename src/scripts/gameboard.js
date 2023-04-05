@@ -1,4 +1,5 @@
 import {Ship} from './ship.js'
+
 export const Gameboard = () => {
   let numberOfShips = 0
   const gameboard = new Array(10)
@@ -31,10 +32,15 @@ export const Gameboard = () => {
     }
     return false
   }
+  const getBoard = () => {
+    return gameboard
+  }
   return {
     placeShip,
     receiveAttack,
-    checkShips
+    checkShips,
+    getBoard
   }
 }
 
+module.exports = Gameboard
