@@ -1,6 +1,6 @@
 import { Gameboard } from "./gameboard"
 
-export const Player = (n) => {
+const Player = (n) => {
   const name = n
   const gameboard = Gameboard()
   const shots = new Map()
@@ -24,3 +24,5 @@ export const Player = (n) => {
     randomAttack
   }
 }
+
+export default Player

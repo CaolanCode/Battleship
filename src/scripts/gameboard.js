@@ -1,6 +1,6 @@
-import {Ship} from './ship.js'
+import Ship from './ship.js'
 
-export const Gameboard = () => {
+const Gameboard = () => {
   let numberOfShips = 0
   const gameboard = new Array(10)
   for(let i = 0; i < 10; i++) {
@@ -10,11 +10,11 @@ export const Gameboard = () => {
     numberOfShips++
     const ship = Ship(length) 
     if(dir === 'S') {
-      for(let k = 0; k < ship.length; k++) {
+      for(let k = 0; k < ship.getLength(); k++) {
         gameboard[i+k][j] = true
       }
     } else if(dir === 'E') {
-      for(let k = 0; k < ship.length; k++) {
+      for(let k = 0; k < ship.getLength(); k++) {
         gameboard[i][j+k] = true
       }
     }
@@ -43,4 +43,5 @@ export const Gameboard = () => {
   }
 }
 
-module.exports = Gameboard
+export default Gameboard
+
