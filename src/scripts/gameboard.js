@@ -18,10 +18,12 @@ const Gameboard = () => {
         gameboard[i][j+k] = true
       }
     }
+    return ship
   }
-  const receiveAttack = (i, j) => {
+  const receiveAttack = (i, j, ship) => {
     if(gameboard[i][j] === true) {
-      placeShip.ship.hit()
+      ship.hit()
+      if(ship.isSunk()) numberOfShips--
       return true
     }  
     return false
