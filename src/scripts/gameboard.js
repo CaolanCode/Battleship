@@ -1,47 +1,46 @@
-import Ship from './ship.js'
+import {v4 as uuidv4} from 'uuid'
 
 const Gameboard = () => {
-  let numberOfShips = 0
+  let ships = []
   const gameboard = new Array(10)
   for(let i = 0; i < 10; i++) {
     gameboard[i] = new Array(10).fill(false)
   }
-  const placeShip = (i, j, dir, length,) => {
-    numberOfShips++
-    const ship = Ship(length) 
+
+  const placeShip = (i, j, dir, ship) => { 
+    ship.assignNumber(uuidv4())
     if(dir === 'S') {
       for(let k = 0; k < ship.getLength(); k++) {
-        gameboard[i+k][j] = true
+        gameboard[i+k][j] = ship.getNumber()
       }
     } else if(dir === 'E') {
       for(let k = 0; k < ship.getLength(); k++) {
-        gameboard[i][j+k] = true
+        gameboard[i][j+k] = ship.getNumber()
       }
     }
-    return ship
+    ships.push(ship)
   }
-  const receiveAttack = (i, j, ship) => {
-    if(gameboard[i][j] === true) {
+
+  const receiveAttack = (i, j) => {
+    if(gameboard[i][j] !== false) {
+      const ship = ships.find((item) => item.getNumber() === gameboard[i][j])
       ship.hit()
-      if(ship.isSunk()) numberOfShips--
-      return true
-    }  
-    return false
-  }
-  const checkShips = () => {
-    if(numberOfShips === 0) {
+      if(ship.isSunk()) ships = ships.filter(item => item !== ship)
       return true
     }
     return false
-  }
-  const getBoard = () => {
-    return gameboard
-  }
+  } 
+  
+  const checkShips = () => ships.length === 0 ? true : false
+  
+  const getBoard = () => gameboard
+
   return {
     placeShip,
     receiveAttack,
     checkShips,
-    getBoard
+    getBoard,
+    ships
   }
 }
 
