@@ -39,8 +39,7 @@ const Gameboard = () => {
     placeShip,
     receiveAttack,
     checkShips,
-    getBoard,
-    ships
+    getBoard
   }
 }
 

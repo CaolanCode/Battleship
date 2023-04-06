@@ -1,4 +1,4 @@
-import { Gameboard } from "./gameboard"
+import Gameboard from "./gameboard"
 
 const Player = (n) => {
   const name = n
@@ -6,7 +6,8 @@ const Player = (n) => {
   const shots = new Map()
 
   const attack = (i, j, enemy) => {
-    return enemy.gameboard.recieveAttack(i, j)
+    shots.set(`${i},${j}`, true)
+    return enemy.getBoard().receiveAttack(i, j)
   } 
 
   const randomAttack = () => {
@@ -19,9 +20,20 @@ const Player = (n) => {
     return [i, j]
   }
 
+  const checkShots = (i, j) => shots.has(`${i},${j}`) ? true : false
+
+  const getName = () => name
+
+  const getBoard = () => gameboard
+
+
+
   return {
     attack,
-    randomAttack
+    randomAttack,
+    checkShots,
+    getName,
+    getBoard
   }
 }
 
