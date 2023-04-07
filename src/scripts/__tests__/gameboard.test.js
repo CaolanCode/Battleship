@@ -87,7 +87,7 @@ describe('Gameboard Test', () => {
     expect(board[1][8]).toBe(false)
   })
 
-  test('Check outer buffer when at edge', () => {
+  test('Check outer buffer when at top/left', () => {
     const ship = Ship(3)
     gameboard.placeShip(0, 0, 'E', ship)
     const board = gameboard.getBoard()
@@ -98,5 +98,17 @@ describe('Gameboard Test', () => {
     expect(board[1][4]).toBe(false)
     expect(board[2][0]).toBe(false)
     expect(board[0][4]).toBe(false)
+  })
+
+  test('Check outer buffer when at bottom/right', () => {
+    const ship = Ship(3)
+    gameboard.placeShip(7, 9, 'S', ship)
+    const board = gameboard.getBoard()
+    expect(board[6][9]).toBe(true)
+    expect(board[6][8]).toBe(true)
+    expect(board[7][8]).toBe(true)
+    expect(board[9][8]).toBe(true)
+    expect(board[5][9]).toBe(false)
+    expect(board[9][7]).toBe(false)
   })
 })

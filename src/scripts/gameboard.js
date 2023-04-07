@@ -72,11 +72,11 @@ const getOuterBuffer = (i, j, size, dir) => {
   
   if(i === 0) topOuter = 0 
   else topOuter = i - 1 
-  if((i + size) === 9) bottomOuter = i + size
+  if((i + size) > 9) bottomOuter = 10
   else bottomOuter = i + height
   if(j === 0) leftOuter = 0
   else leftOuter = j - 1
-  if((j + size) === 9) rightOuter = j + size
+  if((j + size) > 9) rightOuter = 10
   else rightOuter = j + width
 
   return [topOuter, bottomOuter, leftOuter, rightOuter]
