@@ -22,11 +22,25 @@
   gap: 9vw;
   justify-content: center;
   padding: 5vh 0;
+  text-align: center;
 }
 .board-row{
   display: flex;
 }
-.square {
+.square, .ship-square {
   height: 3vw;
   width: 3vw;
+}
+
+/* ships */
+.ships-container {
+  display: flex;
+  gap: 3vw;
+  justify-content: center;
+}
+.ship-model-container {
+  display: flex;
+}
+.ship-square {
+  background: gray;
 }

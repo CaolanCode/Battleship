@@ -1,5 +1,2 @@
-import {header, displayBoards} from './scripts/dom';
+import {playGame} from './scripts/gameloop';
 import './scripts/styles/style.css'
-
-document.body.appendChild(header())
-document.body.appendChild(displayBoards())
