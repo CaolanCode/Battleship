@@ -40,6 +40,10 @@
 }
 .ship-model-container {
   display: flex;
+  gap: .5vw;
+}
+.ship {
+  height: max-content;
 }
 .ship-square {
   background: gray;
