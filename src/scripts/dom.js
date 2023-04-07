@@ -26,7 +26,9 @@ export const displayBoards = () => {
   const container = document.createElement('div')
   container.classList.add('boards-container')
   const playerBoard = createBoard('Player')
+  playerBoard.classList.add('player-board')
   const computerBoard = createBoard('Computer') 
+  computerBoard.classList.add('computer-board')
   container.appendChild(playerBoard)
   container.appendChild(computerBoard)
   return container

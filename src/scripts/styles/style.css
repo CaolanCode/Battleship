@@ -28,8 +28,11 @@
   display: flex;
 }
 .square, .ship-square {
-  height: 3vw;
-  width: 3vw;
+  height: 2vw;
+  width: 2vw;
+}
+.ship-box{
+  background: gray;
 }
 
 /* ships */
