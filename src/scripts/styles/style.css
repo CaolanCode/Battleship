@@ -15,3 +15,18 @@
   font-size: 3rem;
   padding: 1vh 0;
 }
+
+/* gameboard */
+.boards-container {
+  display: flex;
+  gap: 9vw;
+  justify-content: center;
+  padding: 5vh 0;
+}
+.board-row{
+  display: flex;
+}
+.square {
+  height: 3vw;
+  width: 3vw;
+}
