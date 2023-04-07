@@ -38,7 +38,6 @@ const createShips = (quantity, size, name) => {
   for(let i = 0; i < quantity; i++) {
     let ship = document.createElement('div')
     ship.classList.add('ship')
-    ship.setAttribute('id', name)
     for(let j = 0; j < size; j++) {
       let square = document.createElement('div')
       square.classList.add('ship-square')
