@@ -22,8 +22,8 @@ const Gameboard = () => {
     const bottom = buffers[1]
     const left = buffers[2]
     const right = buffers[3]
-    for(let k = top; k < bottom; k++) {
-      for(let l = left; l < right; l++) {
+    for(let k = top; k <= bottom; k++) {
+      for(let l = left; l <= right; l++) {
         if(gameboard[k][l] === 'water') gameboard[k][l] = 'buffer'
       }
     }
@@ -51,14 +51,20 @@ const Gameboard = () => {
       i = Math.floor(Math.random() * 10)
       j = Math.floor(Math.random() * 10)
       if(dir === 'S') {
-        if((i + size) > 9) i -= size
-        for(let k = j; k < size; k++) {
-          if(gameboard[i][k] !== 'water') squareEmpty = false
+        if((i + size) > 9) i = 9 - size
+        for(let k = i; k <= i + size; k++) {
+          if(gameboard[k][j] !== 'water') {
+            squareEmpty = false
+            break
+          } 
         }
       } else {
-        if((j + size) > 9) j -= size
-        for(let k = i; k < size; k++) {
-          if(gameboard[k][j] !== 'water') squareEmpty = false
+        if((j + size) > 9) j = 9 - size
+        for(let k = j; k <= j + size; k++) {
+          if(gameboard[i][k] !== 'water') {
+            squareEmpty = false
+            break
+          }
         }
       }
     if(squareEmpty) allEmpty = true
@@ -86,24 +92,24 @@ const getOuterBuffer = (i, j, size, dir) => {
   let bottomOuter
   let leftOuter
   let rightOuter
-  let height 
-  let width
-
-  if(dir === 'S') height = size
-  else height = 3
-  if(dir === 'E') width = size
-  else width = 3
 
   if(i === 0) topOuter = 0 
   else topOuter = i - 1 
-  if((i + size) >= 8) bottomOuter = 9
-  else bottomOuter = i + height + 1
   if(j === 0) leftOuter = 0
   else leftOuter = j - 1
-  if((j + size) >= 8) rightOuter = 9
-  else rightOuter = j + width + 1
 
-  console.log(topOuter, bottomOuter, leftOuter, rightOuter)
+  if(dir === 'S') {
+    if((i + size) >= 8) bottomOuter = 9
+    else bottomOuter = i + size
+    if(j === 9) rightOuter = 9
+    else rightOuter = j + 1
+  } else {
+    if(i === 9) bottomOuter = 9
+    else bottomOuter = i + 1
+    if((j + size) >= 8) rightOuter = 9
+    else rightOuter = j + size
+  }
+
   return [topOuter, bottomOuter, leftOuter, rightOuter]
 }
 export default Gameboard
