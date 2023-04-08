@@ -2,31 +2,6 @@ import {header, displayBoards} from './dom'
 import Player from './player'
 import Ship from './ship'
 
-const posCarrier = (i, j, dir, name) => {
-  const ship = Ship(5)
-  name.getBoard(). placeShip(i, j, dir, ship)
-}
-
-const posBattleship = (i, j, dir, name) => {
-  const ship = Ship(4)
-  name.getBoard(). placeShip(i, j, dir, ship)
-}
-
-const posDestroyer = (i, j, dir, name) => {
-  const ship = Ship(3)
-  name.getBoard(). placeShip(i, j, dir, ship)
-}
-
-const posSubmarine = (i, j, dir, name) => {
-  const ship = Ship(2)
-  name.getBoard(). placeShip(i, j, dir, ship)
-}
-
-const posPatrolBoat = (i, j, dir, name) => {
-  const ship = Ship(1)
-  name.getBoard(). placeShip(i, j, dir, ship)
-}
-
 const fillPlayerBoard = (gameboard, screenBoard) => {
   const board = gameboard.getBoard()
   const rows = screenBoard.querySelectorAll('.board-row')
@@ -41,8 +16,7 @@ const fillPlayerBoard = (gameboard, screenBoard) => {
   }
 }
 
-
-const fireShot = (i, j, shooter, enemyBoard) => {
+const displayShot = (i, j, shooter, enemyBoard) => {
   const gameboard = shooter.getBoard()
   const board = gameboard.getBoard()
   const rows = enemyBoard.querySelectorAll('.board-row')
@@ -52,18 +26,6 @@ const fireShot = (i, j, shooter, enemyBoard) => {
   else square.classList.add('miss')
 }
 
-const cmptBoardListener = (cmptScreenBoard, player) => {
-  const rows = cmptScreenBoard.querySelectorAll('.board-row')
-  for(let i = 0; i < rows.length; i++) {
-    const squares = rows[i].querySelectorAll('.square')
-    for(let j = 0; j < squares.length; j++) {
-      const square = squares[j]
-      square.addEventListener('click', () => {
-        fireShot(i, j, player, cmptScreenBoard)
-      })
-    }
-  }
-}
 
 export const playGame = (() => {
   const body = document.body
@@ -74,36 +36,49 @@ export const playGame = (() => {
   const computer = Player('Computer')
   const computerBoard = document.querySelector('.computer-board')
   const playerBoard = document.querySelector('.player-board')
-  cmptBoardListener(computerBoard, player)
 
-  posCarrier(0, 0, 'E', player)
-  posBattleship(2, 0, 'E', player)
-  posDestroyer(6, 0, 'S', player)
-  posSubmarine(0, 6, 'S', player)
-  posSubmarine(7, 7, 'S', player)
-  posPatrolBoat(4, 8, 'E', player)
-  posPatrolBoat(4, 5, 'E', player)
+  const carrier = Ship(5)
+  player.getBoard().placeShip(0,0,'E',carrier)
+  const battleship = Ship(4)
+  player.getBoard().placeShip(2,0,'E',battleship)
+  const destroyer = Ship(3)
+  player.getBoard().placeShip(6,0,'S',destroyer)
+  const submarine1 = Ship(2)
+  player.getBoard().placeShip(0,6,'E',submarine1)
+  const submarine2 = Ship(2)
+  player.getBoard().placeShip(0,9,'E',submarine2)
+  const patrolBoat1 = Ship(1)
+  player.getBoard().placeShip(4,8,'E',patrolBoat1)
+  const patrolBoat2 = Ship(1)
+  player.getBoard().placeShip(4,5,'E',patrolBoat2)
   fillPlayerBoard(player.getBoard(), playerBoard)
 
-  posCarrier(0, 0, 'E', computer)
-  posBattleship(2, 0, 'E', computer)
-  posDestroyer(6, 0, 'S', computer)
-  posSubmarine(0, 6, 'S', computer)
-  posSubmarine(7, 7, 'S', computer)
-  posPatrolBoat(4, 8, 'E', computer)
-  posPatrolBoat(4, 5, 'E', computer)
+  computer.getBoard().placeShip(0,0,'E',carrier)
+  computer.getBoard().placeShip(2,0,'E',battleship)
+  computer.getBoard().placeShip(6,0,'S',destroyer)
+  computer.getBoard().placeShip(0,6,'E',submarine1)
+  computer.getBoard().placeShip(0,9,'E',submarine2)
+  computer.getBoard().placeShip(4,8,'E',patrolBoat1)
+  computer.getBoard().placeShip(4,5,'E',patrolBoat2)
+
+  const squares = computerBoard.querySelectorAll('.square')
+  let squareCount = 0
+  for(let i = 0; i < 10; i++) {
+    for(let j = 0; j < 10; j++) {
+      squares[squareCount].addEventListener('click', () => {
+        player.attack(i, j, computer)
+        displayShot(i, j, player, computerBoard)
+        const cmptShot = computer.randomAttack()
+        displayShot(cmptShot[0], cmptShot[1], computer, playerBoard)
+      })
+      squareCount++
+    }
+  }
 
   let finGame = false
   while(finGame) {
-    fireShot(0, 0, player, computerBoard)
-    const cmptShot = computer.randomAttack()
-    fireShot(cmptShot[0], cmptShot[1], computer, playerBoard)
-
     if(player.getBoard().checkShips() || computer.getBoard().checkShips()) {
       finGame = true
     }
   }
-
-
-
 })()
