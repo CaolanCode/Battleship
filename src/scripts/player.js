@@ -26,8 +26,6 @@ const Player = (n) => {
 
   const getBoard = () => gameboard
 
-
-
   return {
     attack,
     randomAttack,

@@ -68,17 +68,16 @@ export const playGame = (() => {
       squares[squareCount].addEventListener('click', () => {
         player.attack(i, j, computer)
         displayShot(i, j, computer, computerBoard)
+        if(player.getBoard().checkShips()) {
+          console.log(computer.getName(), ' wins!')
+        }
         const cmptShot = computer.randomAttack()
         displayShot(cmptShot[0], cmptShot[1], player, playerBoard)
+        if(computer.getBoard().checkShips()) {
+          console.log(player.getName(), ' wins!')
+        }
       })
       squareCount++
-    }
-  }
-
-  let finGame = false
-  while(finGame) {
-    if(player.getBoard().checkShips() || computer.getBoard().checkShips()) {
-      finGame = true
     }
   }
 })()
