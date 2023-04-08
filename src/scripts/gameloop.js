@@ -14,8 +14,8 @@ const fillPlayerBoard = (gameboard, screenBoard) => {
   }
 }
 
-const displayShot = (i, j, shooter, enemyBoard) => {
-  const gameboard = shooter.getBoard()
+const displayShot = (i, j, enemy, enemyBoard) => {
+  const gameboard = enemy.getBoard()
   const board = gameboard.getBoard()
   const rows = enemyBoard.querySelectorAll('.board-row')
   const squares = rows[i].querySelectorAll('.square')
@@ -67,9 +67,9 @@ export const playGame = (() => {
     for(let j = 0; j < 10; j++) {
       squares[squareCount].addEventListener('click', () => {
         player.attack(i, j, computer)
-        displayShot(i, j, player, computerBoard)
+        displayShot(i, j, computer, computerBoard)
         const cmptShot = computer.randomAttack()
-        displayShot(cmptShot[0], cmptShot[1], computer, playerBoard)
+        displayShot(cmptShot[0], cmptShot[1], player, playerBoard)
       })
       squareCount++
     }
