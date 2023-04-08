@@ -34,6 +34,12 @@
 .ship-box{
   background: gray;
 }
+.hit{
+  background: red;
+}
+.miss{
+  background: blue;
+}
 
 /* ships */
 .ships-container {

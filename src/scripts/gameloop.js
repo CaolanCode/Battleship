@@ -27,7 +27,7 @@ const posPatrolBoat = (i, j, dir, name) => {
   name.getBoard(). placeShip(i, j, dir, ship)
 }
 
-const fillBoard = (gameboard, screenBoard) => {
+const fillPlayerBoard = (gameboard, screenBoard) => {
   const board = gameboard.getBoard()
   const rows = screenBoard.querySelectorAll('.board-row')
   for(let i = 0; i < rows.length; i++) {
@@ -39,8 +39,17 @@ const fillBoard = (gameboard, screenBoard) => {
       }
     }
   }
-
 }
+
+const checkComputerBoard = (i, j, gameboard, screenBoard) => {
+  const board = gameboard.getBoard()
+  const rows = screenBoard.querySelectorAll('.board-row')
+  const squares = rows[i].querySelectorAll('.square')
+  const square = squares[j]
+  if(board[i][j] !== false && board[i][j] !== true) square.classList.add('hit')
+  else square.classList.add('miss')
+}
+
 export const playGame = (() => {
   const body = document.body
   body.appendChild(header())
@@ -48,6 +57,8 @@ export const playGame = (() => {
 
   const player = Player('Player') 
   const computer = Player('Computer')
+  const computerBoard = document.querySelector('.computer-board')
+  const playerBoard = document.querySelector('.player-board')
 
   posCarrier(0, 0, 'E', player)
   posBattleship(2, 0, 'E', player)
@@ -56,10 +67,20 @@ export const playGame = (() => {
   posSubmarine(7, 7, 'S', player)
   posPatrolBoat(4, 8, 'E', player)
   posPatrolBoat(4, 5, 'E', player)
+  fillPlayerBoard(player.getBoard(), playerBoard)
 
-  const computerBoard = document.querySelector('.computer-board')
-  const playerBoard = document.querySelector('.player-board')
+  posCarrier(0, 0, 'E', computer)
+  posBattleship(2, 0, 'E', computer)
+  posDestroyer(6, 0, 'S', computer)
+  posSubmarine(0, 6, 'S', computer)
+  posSubmarine(7, 7, 'S', computer)
+  posPatrolBoat(4, 8, 'E', computer)
+  posPatrolBoat(4, 5, 'E', computer)
 
-  fillBoard(player.getBoard(), playerBoard)
+  player.attack(0, 0, computer)
+  checkComputerBoard(0, 0, computer.getBoard(), computerBoard)
+  checkComputerBoard(1, 0, computer.getBoard(), computerBoard)
+
+
 
 })()
