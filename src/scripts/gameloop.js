@@ -9,9 +9,7 @@ const fillPlayerBoard = (gameboard, screenBoard) => {
     const squares = rows[i].querySelectorAll('.square')
     for(let j = 0; j < squares.length; j++) {
       const square = squares[j]
-      if(board[i][j] !== false && board[i][j] !== true) {
-        square.classList.add('ship-box')
-      }
+      if(board[i][j] !== 'water' && board[i][j] !== 'buffer') square.classList.add('ship-box')
     }
   }
 }
@@ -22,7 +20,7 @@ const displayShot = (i, j, shooter, enemyBoard) => {
   const rows = enemyBoard.querySelectorAll('.board-row')
   const squares = rows[i].querySelectorAll('.square')
   const square = squares[j]
-  if(board[i][j] !== false && board[i][j] !== true) square.classList.add('hit')
+  if(board[i][j] !== 'water' && board[i][j] !== 'buffer') square.classList.add('hit')
   else square.classList.add('miss')
 }
 
@@ -46,20 +44,22 @@ export const playGame = (() => {
   const submarine1 = Ship(2)
   player.getBoard().placeShip(0,6,'E',submarine1)
   const submarine2 = Ship(2)
-  player.getBoard().placeShip(0,9,'E',submarine2)
+  player.getBoard().placeShip(0,9,'S',submarine2)
   const patrolBoat1 = Ship(1)
   player.getBoard().placeShip(4,8,'E',patrolBoat1)
   const patrolBoat2 = Ship(1)
   player.getBoard().placeShip(4,5,'E',patrolBoat2)
   fillPlayerBoard(player.getBoard(), playerBoard)
 
-  computer.getBoard().placeShip(0,0,'E',carrier)
-  computer.getBoard().placeShip(2,0,'E',battleship)
-  computer.getBoard().placeShip(6,0,'S',destroyer)
-  computer.getBoard().placeShip(0,6,'E',submarine1)
-  computer.getBoard().placeShip(0,9,'E',submarine2)
-  computer.getBoard().placeShip(4,8,'E',patrolBoat1)
-  computer.getBoard().placeShip(4,5,'E',patrolBoat2)
+  computer.getBoard().randomShip(5)
+  computer.getBoard().randomShip(4)
+  computer.getBoard().randomShip(3)
+  computer.getBoard().randomShip(2)
+  computer.getBoard().randomShip(2)
+  computer.getBoard().randomShip(1)
+  computer.getBoard().randomShip(1)
+
+  fillPlayerBoard(computer.getBoard(), computerBoard)
 
   const squares = computerBoard.querySelectorAll('.square')
   let squareCount = 0

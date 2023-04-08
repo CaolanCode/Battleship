@@ -1,14 +1,13 @@
-import {v4 as uuidv4} from 'uuid'
+import Ship from './ship'
 
 const Gameboard = () => {
   let ships = []
   const gameboard = new Array(10)
   for(let i = 0; i < 10; i++) {
-    gameboard[i] = new Array(10).fill(false)
+    gameboard[i] = new Array(10).fill('water')
   }
 
   const placeShip = (i, j, dir, ship) => { 
-    ship.assignNumber(uuidv4())
     if(dir === 'S') {
       for(let k = 0; k < ship.getLength(); k++) {
         gameboard[i+k][j] = ship.getNumber()
@@ -25,14 +24,14 @@ const Gameboard = () => {
     const right = buffers[3]
     for(let k = top; k < bottom; k++) {
       for(let l = left; l < right; l++) {
-        if(gameboard[k][l] === false) gameboard[k][l] = true
+        if(gameboard[k][l] === 'water') gameboard[k][l] = 'buffer'
       }
     }
     ships.push(ship)
   }
 
   const receiveAttack = (i, j) => {
-    if(gameboard[i][j] !== false && gameboard[i][j] !== true) {
+    if(gameboard[i][j] !== 'water' && gameboard[i][j] !== 'buffer') {
       const ship = ships.find((item) => item.getNumber() === gameboard[i][j])
       ship.hit()
       if(ship.isSunk()) ships = ships.filter(item => item !== ship)
@@ -40,6 +39,33 @@ const Gameboard = () => {
     }
     return false
   } 
+
+  const randomShip = (size) => {
+    const ship = Ship(size)
+    let i, j, dir 
+    let squareEmpty 
+    let allEmpty = false 
+    do {
+      squareEmpty = true
+      dir = Math.random() < 0.5 ? 'E' : 'S'
+      i = Math.floor(Math.random() * 10)
+      j = Math.floor(Math.random() * 10)
+      if(dir === 'S') {
+        if((i + size) > 9) i -= size
+        for(let k = j; k < size; k++) {
+          if(gameboard[i][k] !== 'water') squareEmpty = false
+        }
+      } else {
+        if((j + size) > 9) j -= size
+        for(let k = i; k < size; k++) {
+          if(gameboard[k][j] !== 'water') squareEmpty = false
+        }
+      }
+    if(squareEmpty) allEmpty = true
+    }while(!allEmpty)
+
+    placeShip(i, j, dir, ship)
+  }
 
   
   const checkShips = () => ships.length === 0 ? true : false
@@ -50,7 +76,8 @@ const Gameboard = () => {
     placeShip,
     receiveAttack,
     checkShips,
-    getBoard
+    getBoard,
+    randomShip
   }
 }
 
@@ -62,23 +89,21 @@ const getOuterBuffer = (i, j, size, dir) => {
   let height 
   let width
 
-  if(dir === 'S') height = size + 1
+  if(dir === 'S') height = size
   else height = 3
-  if(dir === 'E') width = size + 1
+  if(dir === 'E') width = size
   else width = 3
 
-  if((i === 0 || i ===9) && dir === 'E') height--
-  else if((j === 0 || j === 9) && dir === 'S') width--
-  
   if(i === 0) topOuter = 0 
   else topOuter = i - 1 
-  if((i + size) > 9) bottomOuter = 10
-  else bottomOuter = i + height
+  if((i + size) >= 8) bottomOuter = 9
+  else bottomOuter = i + height + 1
   if(j === 0) leftOuter = 0
   else leftOuter = j - 1
-  if((j + size) > 9) rightOuter = 10
-  else rightOuter = j + width
+  if((j + size) >= 8) rightOuter = 9
+  else rightOuter = j + width + 1
 
+  console.log(topOuter, bottomOuter, leftOuter, rightOuter)
   return [topOuter, bottomOuter, leftOuter, rightOuter]
 }
 export default Gameboard
