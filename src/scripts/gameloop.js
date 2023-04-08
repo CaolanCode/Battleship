@@ -41,9 +41,10 @@ const fillPlayerBoard = (gameboard, screenBoard) => {
   }
 }
 
-const checkComputerBoard = (i, j, gameboard, screenBoard) => {
+const fireShot = (i, j, shooter, enemyBoard) => {
+  const gameboard = shooter.getBoard()
   const board = gameboard.getBoard()
-  const rows = screenBoard.querySelectorAll('.board-row')
+  const rows = enemyBoard.querySelectorAll('.board-row')
   const squares = rows[i].querySelectorAll('.square')
   const square = squares[j]
   if(board[i][j] !== false && board[i][j] !== true) square.classList.add('hit')
@@ -77,9 +78,9 @@ export const playGame = (() => {
   posPatrolBoat(4, 8, 'E', computer)
   posPatrolBoat(4, 5, 'E', computer)
 
-  player.attack(0, 0, computer)
-  checkComputerBoard(0, 0, computer.getBoard(), computerBoard)
-  checkComputerBoard(1, 0, computer.getBoard(), computerBoard)
+  fireShot(0, 0, player, computerBoard)
+  const cmptShot = computer.randomAttack()
+  fireShot(cmptShot[0], cmptShot[1], computer, playerBoard)
 
 
 
