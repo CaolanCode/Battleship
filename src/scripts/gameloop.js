@@ -41,6 +41,7 @@ const fillPlayerBoard = (gameboard, screenBoard) => {
   }
 }
 
+
 const fireShot = (i, j, shooter, enemyBoard) => {
   const gameboard = shooter.getBoard()
   const board = gameboard.getBoard()
@@ -49,6 +50,19 @@ const fireShot = (i, j, shooter, enemyBoard) => {
   const square = squares[j]
   if(board[i][j] !== false && board[i][j] !== true) square.classList.add('hit')
   else square.classList.add('miss')
+}
+
+const cmptBoardListener = (cmptScreenBoard, player) => {
+  const rows = cmptScreenBoard.querySelectorAll('.board-row')
+  for(let i = 0; i < rows.length; i++) {
+    const squares = rows[i].querySelectorAll('.square')
+    for(let j = 0; j < squares.length; j++) {
+      const square = squares[j]
+      square.addEventListener('click', () => {
+        fireShot(i, j, player, cmptScreenBoard)
+      })
+    }
+  }
 }
 
 export const playGame = (() => {
@@ -60,6 +74,7 @@ export const playGame = (() => {
   const computer = Player('Computer')
   const computerBoard = document.querySelector('.computer-board')
   const playerBoard = document.querySelector('.player-board')
+  cmptBoardListener(computerBoard, player)
 
   posCarrier(0, 0, 'E', player)
   posBattleship(2, 0, 'E', player)
@@ -78,9 +93,16 @@ export const playGame = (() => {
   posPatrolBoat(4, 8, 'E', computer)
   posPatrolBoat(4, 5, 'E', computer)
 
-  fireShot(0, 0, player, computerBoard)
-  const cmptShot = computer.randomAttack()
-  fireShot(cmptShot[0], cmptShot[1], computer, playerBoard)
+  let finGame = false
+  while(finGame) {
+    fireShot(0, 0, player, computerBoard)
+    const cmptShot = computer.randomAttack()
+    fireShot(cmptShot[0], cmptShot[1], computer, playerBoard)
+
+    if(player.getBoard().checkShips() || computer.getBoard().checkShips()) {
+      finGame = true
+    }
+  }
 
 
 
