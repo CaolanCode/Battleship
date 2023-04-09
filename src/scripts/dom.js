@@ -65,3 +65,25 @@ export const displayShips = () => {
   container.appendChild(patrolBoats)
   return container
 }
+
+export const displayShot = (i, j, enemy, enemyBoard) => {
+  const gameboard = enemy.getBoard()
+  const board = gameboard.getBoard()
+  const rows = enemyBoard.querySelectorAll('.board-row')
+  const squares = rows[i].querySelectorAll('.square')
+  const square = squares[j]
+  if(board[i][j] !== 'water' && board[i][j] !== 'buffer') square.classList.add('hit')
+  else square.classList.add('miss')
+}
+
+export const fillPlayerBoard = (gameboard, screenBoard) => {
+  const board = gameboard.getBoard()
+  const rows = screenBoard.querySelectorAll('.board-row')
+  for(let i = 0; i < rows.length; i++) {
+    const squares = rows[i].querySelectorAll('.square')
+    for(let j = 0; j < squares.length; j++) {
+      const square = squares[j]
+      if(board[i][j] !== 'water' && board[i][j] !== 'buffer') square.classList.add('ship-box')
+    }
+  }
+}
