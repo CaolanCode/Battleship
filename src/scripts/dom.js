@@ -107,7 +107,7 @@ export const setListeners = (player, playerBoard, computer, computerBoard) => {
   }
 }
 
-const removeListeners = (computerBoard) => {
+const removeAllListeners = (computerBoard) => {
   const squares = computerBoard.querySelectorAll('.square')
   squares.forEach(square => {
     const newSquare = square.cloneNode(true)
@@ -118,6 +118,7 @@ const removeListeners = (computerBoard) => {
 const handleListeners = (i, j, player, playerBoard, computer, computerBoard) => {
   player.attack(i, j, computer)
   displayShot(i, j, computer, computerBoard)
+  removeLastListener(i, j, computerBoard)
   if(checkForWinner(player, computer, computerBoard)) return
   const cmptShot = computer.randomAttack(player)
   displayShot(cmptShot[0], cmptShot[1], player, playerBoard)
@@ -126,13 +127,19 @@ const handleListeners = (i, j, player, playerBoard, computer, computerBoard) => 
 
 const checkForWinner = (player, computer, computerBoard) => {
   if(computer.getBoard().checkShips()) {
-    removeListeners(computerBoard)
+    removeAllListeners(computerBoard)
     document.body.appendChild(displayWinner(player))
     return true
   } else if(player.getBoard().checkShips()) {
-    removeListeners(computerBoard)
+    removeAllListeners(computerBoard)
     document.body.appendChild(displayWinner(computer))
     return true
   }
   return false
+}
+
+const removeLastListener = (i, j, computerBoard) => {
+  const rows = computerBoard.querySelectorAll('.board-row')
+  const squares = rows[i].querySelectorAll('.square')
+  squares[j].replaceWith(squares[j].cloneNode(true))
 }
