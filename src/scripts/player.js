@@ -7,16 +7,17 @@ const Player = (n) => {
 
   const attack = (i, j, enemy) => {
     shots.set(`${i},${j}`, true)
-    return enemy.getBoard().receiveAttack(i, j)
+    enemy.getBoard().receiveAttack(i, j)
   } 
 
-  const randomAttack = () => {
+  const randomAttack = (enemy) => {
     let i, j
     do{
       i = Math.floor(Math.random() * 10)
       j = Math.floor(Math.random() * 10)
     } while(shots.has(`${i},${j}`))
     shots.set(`${i},${j}`, true)
+    enemy.getBoard().receiveAttack(i, j)
     return [i, j]
   }
 

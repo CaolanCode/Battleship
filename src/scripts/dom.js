@@ -1,3 +1,5 @@
+import { playGame } from "./gameloop"
+
 export const header = () => {
   const container = document.createElement('div')
   container.classList.add('header')
@@ -66,7 +68,7 @@ export const displayShips = () => {
   return container
 }
 
-export const displayShot = (i, j, enemy, enemyBoard) => {
+const displayShot = (i, j, enemy, enemyBoard) => {
   const gameboard = enemy.getBoard()
   const board = gameboard.getBoard()
   const rows = enemyBoard.querySelectorAll('.board-row')
@@ -86,4 +88,51 @@ export const fillPlayerBoard = (gameboard, screenBoard) => {
       if(board[i][j] !== 'water' && board[i][j] !== 'buffer') square.classList.add('ship-box')
     }
   }
+}
+
+const displayWinner = (winner) => {
+  const container = document.createElement('div')
+  container.classList.add('winner-notice')
+  container.innerText = winner.getName() + ' is the winner'
+  return container
+}
+
+export const setListeners = (player, playerBoard, computer, computerBoard) => {
+  const rows = computerBoard.querySelectorAll('.board-row')
+  for(let i = 0; i < 10; i++) {
+    const squares = rows[i].querySelectorAll('.square')
+    for(let j = 0; j < 10; j++) {
+      squares[j].addEventListener('click', () => handleListeners(i, j, player, playerBoard, computer, computerBoard))
+    }
+  }
+}
+
+const removeListeners = (computerBoard) => {
+  const squares = computerBoard.querySelectorAll('.square')
+  squares.forEach(square => {
+    const newSquare = square.cloneNode(true)
+    square.parentNode.replaceChild(newSquare, square)
+  })
+}
+
+const handleListeners = (i, j, player, playerBoard, computer, computerBoard) => {
+  player.attack(i, j, computer)
+  displayShot(i, j, computer, computerBoard)
+  if(checkForWinner(player, computer, computerBoard)) return
+  const cmptShot = computer.randomAttack(player)
+  displayShot(cmptShot[0], cmptShot[1], player, playerBoard)
+  if(checkForWinner(player, computer, computerBoard)) return
+}
+
+const checkForWinner = (player, computer, computerBoard) => {
+  if(computer.getBoard().checkShips()) {
+    removeListeners(computerBoard)
+    document.body.appendChild(displayWinner(player))
+    return true
+  } else if(player.getBoard().checkShips()) {
+    removeListeners(computerBoard)
+    document.body.appendChild(displayWinner(computer))
+    return true
+  }
+  return false
 }

@@ -33,12 +33,9 @@ const Gameboard = () => {
   const receiveAttack = (i, j) => {
     if(gameboard[i][j] !== 'water' && gameboard[i][j] !== 'buffer') {
       const ship = ships.find((item) => item.getNumber() === gameboard[i][j])
-      console.log(ship.getNumber())
       ship.hit()
       if(ship.isSunk()) ships = ships.filter(item => item !== ship)
-      return true
     }
-    return false
   } 
 
   const randomShip = (size) => {

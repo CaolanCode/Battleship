@@ -1,11 +1,10 @@
-import {header, displayBoards, displayShot, fillPlayerBoard} from './dom'
+import {header, displayBoards, setListeners, fillPlayerBoard} from './dom'
 import Player from './player'
 import Ship from './ship'
 
 export const playGame = (() => {
-  const body = document.body
-  body.appendChild(header())
-  body.appendChild(displayBoards())
+  document.body.appendChild(header())
+  document.body.appendChild(displayBoards())
 
   const player = Player('Player') 
   const computer = Player('Computer')
@@ -35,26 +34,7 @@ export const playGame = (() => {
   computer.getBoard().randomShip(2)
   computer.getBoard().randomShip(1)
   computer.getBoard().randomShip(1)
-
   fillPlayerBoard(computer.getBoard(), computerBoard)
 
-  const squares = computerBoard.querySelectorAll('.square')
-  let squareCount = 0
-  for(let i = 0; i < 10; i++) {
-    for(let j = 0; j < 10; j++) {
-      squares[squareCount].addEventListener('click', () => {
-        player.attack(i, j, computer)
-        displayShot(i, j, computer, computerBoard)
-        if(player.getBoard().checkShips()) {
-          console.log(computer.getName(), ' wins!')
-        }
-        const cmptShot = computer.randomAttack()
-        displayShot(cmptShot[0], cmptShot[1], player, playerBoard)
-        if(computer.getBoard().checkShips()) {
-          console.log(player.getName(), ' wins!')
-        }
-      })
-      squareCount++
-    }
-  }
+  setListeners(player, playerBoard, computer, computerBoard)
 })()
