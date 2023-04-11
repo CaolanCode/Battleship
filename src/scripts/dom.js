@@ -24,10 +24,10 @@ const createBoard = (player) => {
   return board
 }
 
-export const displayBoards = () => {
+export const displayBoards = (player) => {
   const container = document.createElement('div')
   container.classList.add('boards-container')
-  const playerBoard = createBoard('Player')
+  const playerBoard = createBoard(player.getName())
   playerBoard.classList.add('player-board')
   const computerBoard = createBoard('Computer') 
   computerBoard.classList.add('computer-board')

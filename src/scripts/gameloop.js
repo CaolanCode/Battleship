@@ -3,18 +3,18 @@ import Player from './player'
 import Ship from './ship'
 
 export const playerRandomShips = () => {
-  document.body.appendChild(displayBoards())
-  const playerBoard = document.querySelector('.player-board')
-  const computerBoard = document.querySelector('.computer-board')
   const nameInput = document.querySelector('.name-input')
+  if(nameInput.value !== null && nameInput.value !== '') player = Player(nameInput.value)
+  else player = Player('Player')
   const controls = document.querySelector('.control-container')
   controls.remove()
-  let player
+
+  document.body.appendChild(displayBoards(player))
+  const playerBoard = document.querySelector('.player-board')
+  const computerBoard = document.querySelector('.computer-board')
+
   const computer = Player('Computer')
-
-  if(nameInput.value !== null && nameInput.value !== '')  player = Player(nameInput.value)
-  else player = Player('Player')
-
+  let player
   player.getBoard().randomShip(5)
   player.getBoard().randomShip(4)
   player.getBoard().randomShip(3)
@@ -35,20 +35,31 @@ export const playerRandomShips = () => {
   setListeners(player, computer)
 }
 
-export const playGame = (() => {
-
+export const dragDropShips = () => {
+  document.body.appendChild(displayBoards())
   const playerBoard = document.querySelector('.player-board')
+  const computerBoard = document.querySelector('.computer-board')
+  const nameInput = document.querySelector('.name-input')
+  const controls = document.querySelector('.control-container')
+  controls.remove()
+
+  const ships = []
   const carrier = Ship(5)
+  ships.push(carrier)
   const battleship = Ship(4)
+  ships.push(battleship)
   const destroyer = Ship(3)
+  ships.push(destroyer)
   const submarine1 = Ship(2)
+  ships.push(submarine1)
   const submarine2 = Ship(2)
+  ships.push(submarine2)
   const patrolBoat1 = Ship(1)
+  ships.push(patrolBoat1)
   const patrolBoat2 = Ship(1)
+  ships.push(patrolBoat2)
 
-
-
-})
+}
 
 export const startGame = (() => {
   document.body.appendChild(header())
