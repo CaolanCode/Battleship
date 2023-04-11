@@ -1,4 +1,4 @@
-import { playerRandomShips } from "./gameloop"
+import { dragDropShips, playerRandomShips } from "./gameloop"
 
 export const header = () => {
   const container = document.createElement('div')
@@ -166,7 +166,37 @@ export const startControls = () => {
   const dragDropBtn = document.createElement('button')
   dragDropBtn.classList.add('drag-drop-btn')
   dragDropBtn.innerText = 'Drag-&-Drop'
+  dragDropBtn.addEventListener('click', dragDropShips)
   container.appendChild(dragDropBtn)
+
+  return container
+}
+
+export const showShips = (ships) => {
+  const container = document.createElement('div')
+  container.classList.add('ship-container')
+  
+  const dirBtn = document.createElement('button')
+  dirBtn.classList.add('dir-btn')
+  dirBtn.classList.add('dir-south')
+  dirBtn.innerHTML = '<span class="material-symbols-outlined">south</span>'
+  dirBtn.addEventListener('click', () => {
+    const isSouth = dirBtn.classList.contains('dir-south')
+    if (isSouth) {
+      dirBtn.innerHTML = '<span class="material-symbols-outlined">east</span>'
+      dirBtn.classList.remove('dir-south')
+      dirBtn.classList.add('dir-east')
+    } else {
+      dirBtn.innerHTML = '<span class="material-symbols-outlined">south</span>'
+      dirBtn.classList.remove('dir-east')
+      dirBtn.classList.add('dir-south')
+    }
+  })
+  container.appendChild(dirBtn)
+
+  const shipContainer = document.createElement('div')
+  shipContainer.classList.add('ship-drag-drop')
+  container.appendChild(shipContainer)
 
   return container
 }
