@@ -13,7 +13,6 @@ export const playerRandomShips = () => {
   const playerBoard = document.querySelector('.player-board')
   const computerBoard = document.querySelector('.computer-board')
 
-  const computer = Player('Computer')
   let player
   player.getBoard().randomShip(5)
   player.getBoard().randomShip(4)
@@ -24,6 +23,7 @@ export const playerRandomShips = () => {
   player.getBoard().randomShip(1)
   fillBoard(player.getBoard(), playerBoard)
 
+  const computer = Player('Computer')
   computer.getBoard().randomShip(5)
   computer.getBoard().randomShip(4)
   computer.getBoard().randomShip(3)

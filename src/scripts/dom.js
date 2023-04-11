@@ -109,6 +109,7 @@ export const setListeners = (player, computer) => {
 }
 
 const removeAllListeners = () => {
+  const computerBoard = document.querySelector('.computer-board')
   const squares = computerBoard.querySelectorAll('.square')
   squares.forEach(square => {
     const newSquare = square.cloneNode(true)
