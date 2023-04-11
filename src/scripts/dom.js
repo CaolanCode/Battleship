@@ -1,4 +1,4 @@
-import { playGame } from "./gameloop"
+import { playerRandomShips } from "./gameloop"
 
 export const header = () => {
   const container = document.createElement('div')
@@ -78,7 +78,7 @@ const displayShot = (i, j, enemy, enemyBoard) => {
   else square.classList.add('miss')
 }
 
-export const fillPlayerBoard = (gameboard, screenBoard) => {
+export const fillBoard = (gameboard, screenBoard) => {
   const board = gameboard.getBoard()
   const rows = screenBoard.querySelectorAll('.board-row')
   for(let i = 0; i < rows.length; i++) {
@@ -97,17 +97,18 @@ const displayWinner = (winner) => {
   return container
 }
 
-export const setListeners = (player, playerBoard, computer, computerBoard) => {
+export const setListeners = (player, computer) => {
+  const computerBoard = document.querySelector('.computer-board')
   const rows = computerBoard.querySelectorAll('.board-row')
   for(let i = 0; i < 10; i++) {
     const squares = rows[i].querySelectorAll('.square')
     for(let j = 0; j < 10; j++) {
-      squares[j].addEventListener('click', () => handleListeners(i, j, player, playerBoard, computer, computerBoard))
+      squares[j].addEventListener('click', () => handleListeners(i, j, player, computer))
     }
   }
 }
 
-const removeAllListeners = (computerBoard) => {
+const removeAllListeners = () => {
   const squares = computerBoard.querySelectorAll('.square')
   squares.forEach(square => {
     const newSquare = square.cloneNode(true)
@@ -115,7 +116,9 @@ const removeAllListeners = (computerBoard) => {
   })
 }
 
-const handleListeners = (i, j, player, playerBoard, computer, computerBoard) => {
+const handleListeners = (i, j, player, computer) => {
+  const computerBoard = document.querySelector('.computer-board')
+  const playerBoard = document.querySelector('.player-board')
   player.attack(i, j, computer)
   displayShot(i, j, computer, computerBoard)
   removeLastListener(i, j, computerBoard)
@@ -142,4 +145,27 @@ const removeLastListener = (i, j, computerBoard) => {
   const rows = computerBoard.querySelectorAll('.board-row')
   const squares = rows[i].querySelectorAll('.square')
   squares[j].replaceWith(squares[j].cloneNode(true))
+}
+
+export const startControls = () => {
+  const container = document.createElement('div')
+  container.classList.add('control-container')
+
+  const nameInput = document.createElement('input')
+  nameInput.classList.add('name-input')
+  nameInput.placeholder = 'Enter name'
+  container.appendChild(nameInput)
+
+  const randomPosBtn = document.createElement('button')
+  randomPosBtn.classList.add('random-ships-btn')
+  randomPosBtn.innerText = 'Random'
+  randomPosBtn.addEventListener('click', playerRandomShips)
+  container.appendChild(randomPosBtn)
+
+  const dragDropBtn = document.createElement('button')
+  dragDropBtn.classList.add('drag-drop-btn')
+  dragDropBtn.innerText = 'Drag-&-Drop'
+  container.appendChild(dragDropBtn)
+
+  return container
 }

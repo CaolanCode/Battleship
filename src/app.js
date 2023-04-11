@@ -1,2 +1,2 @@
-import {playGame} from './scripts/gameloop';
+import './scripts/gameloop.js'
 import './scripts/styles/style.css'

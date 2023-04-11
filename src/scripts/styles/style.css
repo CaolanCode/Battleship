@@ -54,6 +54,20 @@
 .ship {
   height: max-content;
 }
-.ship-square {
-  background: gray;
+
+/* controls */
+.control-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .5vh;
+  width: 30vw;
+  height: 10vh;
+  position:absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.name-input {
+  grid-column: 1 / span 2;
+  text-align: center;
 }
