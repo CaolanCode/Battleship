@@ -27,9 +27,10 @@
 .board-row{
   display: flex;
 }
-.square, .ship-square {
+.square, .ship-box {
   height: 2vw;
   width: 2vw;
+  cursor: pointer;
 }
 .ship-box{
   background: gray;
@@ -70,4 +71,17 @@
 .name-input {
   grid-column: 1 / span 2;
   text-align: center;
+}
+.random-ships-btn, .drag-drop-btn, .dir-btn {
+  cursor: pointer;
+}
+
+/* drag drop ships */
+.dd-ship, .drag-drop-ships, .drag-drop-container {
+  display: flex;
+}
+.drag-drop-container, .drag-drop-ships {
+  flex-direction: column;
+  align-items: center;
+  gap: 1vw;
 }

@@ -174,29 +174,63 @@ export const startControls = () => {
 
 export const showShips = (ships) => {
   const container = document.createElement('div')
-  container.classList.add('ship-container')
+  container.classList.add('drag-drop-container')
   
   const dirBtn = document.createElement('button')
   dirBtn.classList.add('dir-btn')
-  dirBtn.classList.add('dir-south')
-  dirBtn.innerHTML = '<span class="material-symbols-outlined">south</span>'
+  dirBtn.classList.add('dir-east')
+  dirBtn.innerHTML = '<span class="material-symbols-outlined">east</span>'
   dirBtn.addEventListener('click', () => {
-    const isSouth = dirBtn.classList.contains('dir-south')
+    const isSouth = dirBtn.classList.contains('dir-east')
     if (isSouth) {
       dirBtn.innerHTML = '<span class="material-symbols-outlined">east</span>'
-      dirBtn.classList.remove('dir-south')
-      dirBtn.classList.add('dir-east')
-    } else {
-      dirBtn.innerHTML = '<span class="material-symbols-outlined">south</span>'
       dirBtn.classList.remove('dir-east')
       dirBtn.classList.add('dir-south')
+      changeShipDir()
+    } else {
+      dirBtn.innerHTML = '<span class="material-symbols-outlined">south</span>'
+      dirBtn.classList.remove('dir-south')
+      dirBtn.classList.add('dir-east')
+      changeShipDir()
     }
   })
   container.appendChild(dirBtn)
 
-  const shipContainer = document.createElement('div')
-  shipContainer.classList.add('ship-drag-drop')
-  container.appendChild(shipContainer)
+  const allShipContainer = document.createElement('div')
+  allShipContainer.classList.add('drag-drop-ships')
+  allShipContainer.classList.add('drag-drop-south')
+
+  ships.forEach(ship => {
+    const shipContainer = document.createElement('div')
+    shipContainer.classList.add('dd-ship')
+    for(let i = 0; i < ship.getLength(); i++) {
+      const shipSquare = document.createElement('div')
+      shipSquare.classList.add('ship-box')
+      shipContainer.appendChild(shipSquare)
+    }
+    allShipContainer.appendChild(shipContainer)
+  })
+  container.appendChild(allShipContainer)
 
   return container
+}
+
+const changeShipDir = () => {
+  const shipContainer = document.querySelector('.drag-drop-ships')
+  const ships = document.querySelectorAll('.dd-ship')
+  if(shipContainer.classList.contains('drag-drop-south')) {
+    shipContainer.classList.remove('drag-drop-south')
+    shipContainer.classList.add('drag-drop-east')
+    shipContainer.style.flexDirection = 'column'
+    ships.forEach(ship => {
+      ship.style.flexDirection = 'row'
+    })
+  } else {
+    shipContainer.classList.remove('drag-drop-east')
+    shipContainer.classList.add('drag-drop-south')
+    shipContainer.style.flexDirection = 'row'
+    ships.forEach(ship => {
+      ship.style.flexDirection = 'column'
+    })
+  }
 }
