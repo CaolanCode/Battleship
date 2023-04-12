@@ -81,7 +81,9 @@
   display: flex;
 }
 .drag-drop-container, .drag-drop-ships {
-  flex-direction: column;
   align-items: center;
   gap: 1vw;
+}
+.drag-drop-container {
+  flex-direction: column;
 }

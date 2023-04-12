@@ -181,14 +181,14 @@ export const showShips = (ships) => {
   dirBtn.classList.add('dir-east')
   dirBtn.innerHTML = '<span class="material-symbols-outlined">east</span>'
   dirBtn.addEventListener('click', () => {
-    const isSouth = dirBtn.classList.contains('dir-east')
-    if (isSouth) {
-      dirBtn.innerHTML = '<span class="material-symbols-outlined">east</span>'
+    const isEast = dirBtn.classList.contains('dir-east')
+    if (isEast) {
+      dirBtn.innerHTML = '<span class="material-symbols-outlined">south</span>'
       dirBtn.classList.remove('dir-east')
       dirBtn.classList.add('dir-south')
       changeShipDir()
     } else {
-      dirBtn.innerHTML = '<span class="material-symbols-outlined">south</span>'
+      dirBtn.innerHTML = '<span class="material-symbols-outlined">east</span>'
       dirBtn.classList.remove('dir-south')
       dirBtn.classList.add('dir-east')
       changeShipDir()
@@ -198,7 +198,7 @@ export const showShips = (ships) => {
 
   const allShipContainer = document.createElement('div')
   allShipContainer.classList.add('drag-drop-ships')
-  allShipContainer.classList.add('drag-drop-south')
+  allShipContainer.classList.add('drag-drop-east')
 
   ships.forEach(ship => {
     const shipContainer = document.createElement('div')
@@ -221,14 +221,12 @@ const changeShipDir = () => {
   if(shipContainer.classList.contains('drag-drop-south')) {
     shipContainer.classList.remove('drag-drop-south')
     shipContainer.classList.add('drag-drop-east')
-    shipContainer.style.flexDirection = 'column'
     ships.forEach(ship => {
       ship.style.flexDirection = 'row'
     })
   } else {
     shipContainer.classList.remove('drag-drop-east')
     shipContainer.classList.add('drag-drop-south')
-    shipContainer.style.flexDirection = 'row'
     ships.forEach(ship => {
       ship.style.flexDirection = 'column'
     })
