@@ -77,15 +77,12 @@
 }
 
 /* drag drop ships */
-.dd-ship, .drag-drop-ships, .drag-drop-container, .ship-btn {
+.dd-ship, .drag-drop-ships, .ship-btn {
   display: flex;
 }
-.drag-drop-container, .drag-drop-ships, .ship-btn {
+.drag-drop-ships, .ship-btn {
   align-items: center;
   justify-content: center;
-  column-gap: 10vw;
-}
-.drag-drop-ships, .ship-btn {
-  flex-direction: column;
   gap: 1vh;
+  flex-direction: column;
 }

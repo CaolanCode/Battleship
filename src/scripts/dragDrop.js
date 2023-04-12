@@ -3,26 +3,26 @@ import { createBoard } from "./dom"
 
 export const dragDropMenu = (player) => {
   const container = document.createElement('div')
-  container.classList.add('drag-drop-container')
+  container.classList.add('boards-container')
   const shipBtn = document.createElement('div')
   shipBtn.classList.add('ship-btn')
   container.appendChild(createBoard(player.getName(), 'player-board'))
   
   const dirBtn = document.createElement('button')
   dirBtn.classList.add('dir-btn')
-  dirBtn.classList.add('dir-east')
-  dirBtn.innerHTML = '<span class="material-symbols-outlined">east</span>'
+  dirBtn.classList.add('dir-south')
+  dirBtn.innerHTML = '<span class="material-symbols-outlined">south</span>'
   dirBtn.addEventListener('click', () => {
-    const isEast = dirBtn.classList.contains('dir-east')
-    if (isEast) {
-      dirBtn.innerHTML = '<span class="material-symbols-outlined">south</span>'
-      dirBtn.classList.remove('dir-east')
-      dirBtn.classList.add('dir-south')
-      changeShipDir()
-    } else {
+    const isSouth = dirBtn.classList.contains('dir-south')
+    if (isSouth) {
       dirBtn.innerHTML = '<span class="material-symbols-outlined">east</span>'
       dirBtn.classList.remove('dir-south')
       dirBtn.classList.add('dir-east')
+      changeShipDir()
+    } else {
+      dirBtn.innerHTML = '<span class="material-symbols-outlined">south</span>'
+      dirBtn.classList.remove('dir-east')
+      dirBtn.classList.add('dir-south')
       changeShipDir()
     }
   })
@@ -88,12 +88,4 @@ const changeShipDir = () => {
       ship.style.flexDirection = 'column'
     })
   }
-}
-
-
-const getDirection = () => {
-  const shipContainer = document.querySelector('.drag-drop-ships')
-  const isSouth = shipContainer.classList.contains('.drag-drop-south')
-  if(isSouth) return 'south'
-  return 'east'
 }

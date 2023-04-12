@@ -34,7 +34,6 @@ export const playerRandomShips = () => {
   document.body.appendChild(boardsContainer)
 
   const playerBoard = document.querySelector('.player-board')
-  const computerBoard = document.querySelector('.computer-board')
 
   player.getBoard().randomShip(5)
   player.getBoard().randomShip(4)
