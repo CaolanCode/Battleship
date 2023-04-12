@@ -7,10 +7,10 @@ export const header = () => {
   return container
 }
 
-const createBoard = (player) => {
+export const createBoard = (name, className) => {
   const board = document.createElement('div')
-  board.classList.add('board')
-  board.innerText = player
+  board.classList.add(className)
+  board.innerText = name
   for(let i = 0; i < 10; i++) {
     let row = document.createElement('div')
     row.classList.add('board-row')
@@ -22,50 +22,6 @@ const createBoard = (player) => {
     board.appendChild(row)
   }
   return board
-}
-
-export const displayBoards = (player) => {
-  const container = document.createElement('div')
-  container.classList.add('boards-container')
-  const playerBoard = createBoard(player.getName())
-  playerBoard.classList.add('player-board')
-  const computerBoard = createBoard('Computer') 
-  computerBoard.classList.add('computer-board')
-  container.appendChild(playerBoard)
-  container.appendChild(computerBoard)
-  return container
-}
-
-const createShips = (quantity, size, name) => {
-  const container = document.createElement('div')
-  container.classList.add('ship-model-container')
-  for(let i = 0; i < quantity; i++) {
-    let ship = document.createElement('div')
-    ship.classList.add('ship')
-    for(let j = 0; j < size; j++) {
-      let square = document.createElement('div')
-      square.classList.add('ship-square')
-      ship.appendChild(square)
-    }
-    container.appendChild(ship)
-  }
-  return container
-}
-
-export const displayShips = () => {
-  const container = document.createElement('div')
-  container.classList.add('ships-container')
-  const carrier = createShips(1, 5, 'carrier')
-  const battleships = createShips(2, 4, 'battleship')
-  const destroyers = createShips(3, 3, 'destroyer')
-  const submarines = createShips(4, 3, 'submarine')
-  const patrolBoats = createShips(5, 2, 'patrol-boat')
-  container.appendChild(carrier)
-  container.appendChild(battleships)
-  container.appendChild(destroyers)
-  container.appendChild(submarines)
-  container.appendChild(patrolBoats)
-  return container
 }
 
 const displayShot = (i, j, enemy, enemyBoard) => {
@@ -172,63 +128,3 @@ export const startControls = () => {
   return container
 }
 
-export const showShips = (ships) => {
-  const container = document.createElement('div')
-  container.classList.add('drag-drop-container')
-  
-  const dirBtn = document.createElement('button')
-  dirBtn.classList.add('dir-btn')
-  dirBtn.classList.add('dir-east')
-  dirBtn.innerHTML = '<span class="material-symbols-outlined">east</span>'
-  dirBtn.addEventListener('click', () => {
-    const isEast = dirBtn.classList.contains('dir-east')
-    if (isEast) {
-      dirBtn.innerHTML = '<span class="material-symbols-outlined">south</span>'
-      dirBtn.classList.remove('dir-east')
-      dirBtn.classList.add('dir-south')
-      changeShipDir()
-    } else {
-      dirBtn.innerHTML = '<span class="material-symbols-outlined">east</span>'
-      dirBtn.classList.remove('dir-south')
-      dirBtn.classList.add('dir-east')
-      changeShipDir()
-    }
-  })
-  container.appendChild(dirBtn)
-
-  const allShipContainer = document.createElement('div')
-  allShipContainer.classList.add('drag-drop-ships')
-  allShipContainer.classList.add('drag-drop-east')
-
-  ships.forEach(ship => {
-    const shipContainer = document.createElement('div')
-    shipContainer.classList.add('dd-ship')
-    for(let i = 0; i < ship.getLength(); i++) {
-      const shipSquare = document.createElement('div')
-      shipSquare.classList.add('ship-box')
-      shipContainer.appendChild(shipSquare)
-    }
-    allShipContainer.appendChild(shipContainer)
-  })
-  container.appendChild(allShipContainer)
-
-  return container
-}
-
-const changeShipDir = () => {
-  const shipContainer = document.querySelector('.drag-drop-ships')
-  const ships = document.querySelectorAll('.dd-ship')
-  if(shipContainer.classList.contains('drag-drop-south')) {
-    shipContainer.classList.remove('drag-drop-south')
-    shipContainer.classList.add('drag-drop-east')
-    ships.forEach(ship => {
-      ship.style.flexDirection = 'row'
-    })
-  } else {
-    shipContainer.classList.remove('drag-drop-east')
-    shipContainer.classList.add('drag-drop-south')
-    ships.forEach(ship => {
-      ship.style.flexDirection = 'column'
-    })
-  }
-}

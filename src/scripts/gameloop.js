@@ -1,6 +1,6 @@
-import {header, displayBoards, setListeners, fillBoard, startControls, showShips} from './dom'
+import {header, createBoard, setListeners, fillBoard, startControls } from './dom'
+import { dragDropMenu } from './dragDrop'
 import Player from './player'
-import Ship from './ship'
 
 const getPlayer = () => {
   const nameInput = document.querySelector('.name-input')
@@ -26,7 +26,13 @@ const randomComputer = () => {
 
 export const playerRandomShips = () => {
   const player = getPlayer()
-  document.body.appendChild(displayBoards(player))
+
+  const boardsContainer = document.createElement('div')
+  boardsContainer.classList.add('boards-container')
+  boardsContainer.appendChild(createBoard(player.getName(), 'player-board'))
+  boardsContainer.appendChild(createBoard('Computer', 'computer-board'))
+  document.body.appendChild(boardsContainer)
+
   const playerBoard = document.querySelector('.player-board')
   const computerBoard = document.querySelector('.computer-board')
 
@@ -40,36 +46,16 @@ export const playerRandomShips = () => {
   fillBoard(player.getBoard(), playerBoard)
 
   const computer = randomComputer()
-  fillBoard(computer.getBoard(), computerBoard)
   setListeners(player, computer)
 }
 
 export const dragDropShips = () => {
   const player = getPlayer()
-  document.body.appendChild(displayBoards(player))
+
   const computerBoard = document.querySelector('.computer-board')
-
   const computer = randomComputer()
-  fillBoard(computer.getBoard(), computerBoard)
-  setListeners(player, computer)
 
-  const ships = []
-  const carrier = Ship(5)
-  ships.push(carrier)
-  const battleship = Ship(4)
-  ships.push(battleship)
-  const destroyer = Ship(3)
-  ships.push(destroyer)
-  const submarine1 = Ship(2)
-  ships.push(submarine1)
-  const submarine2 = Ship(2)
-  ships.push(submarine2)
-  const patrolBoat1 = Ship(1)
-  ships.push(patrolBoat1)
-  const patrolBoat2 = Ship(1)
-  ships.push(patrolBoat2)
-
-  document.body.appendChild(showShips(ships))
+  document.body.appendChild(dragDropMenu(player))
 }
 
 export const startGame = (() => {

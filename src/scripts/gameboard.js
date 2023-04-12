@@ -10,11 +10,11 @@ const Gameboard = () => {
   const placeShip = (i, j, dir, ship) => { 
     if(dir === 'S') {
       for(let k = 0; k < ship.getLength(); k++) {
-        gameboard[i+k][j] = ship.getNumber()
+        gameboard[i+k][j] = ship.getID()
       }
     } else {
       for(let k = 0; k < ship.getLength(); k++) {
-        gameboard[i][j+k] = ship.getNumber()
+        gameboard[i][j+k] = ship.getID()
       }
     }
     const buffers = getOuterBuffer(i, j, ship.getLength(), dir)
@@ -32,7 +32,7 @@ const Gameboard = () => {
 
   const receiveAttack = (i, j) => {
     if(gameboard[i][j] !== 'water' && gameboard[i][j] !== 'buffer') {
-      const ship = ships.find((item) => item.getNumber() === gameboard[i][j])
+      const ship = ships.find((item) => item.getID() === gameboard[i][j])
       ship.hit()
       if(ship.isSunk()) ships = ships.filter(item => item !== ship)
     }
