@@ -1,28 +1,27 @@
 import Ship from "./ship"
-import { createBoard } from "./dom"
 
 export const dragDropMenu = (player) => {
   const container = document.createElement('div')
   container.classList.add('boards-container')
   const shipBtn = document.createElement('div')
   shipBtn.classList.add('ship-btn')
-  container.appendChild(createBoard(player.getName(), 'player-board'))
+  container.appendChild(dragDropBoard(player.getName(), 'player-board'))
   
   const dirBtn = document.createElement('button')
   dirBtn.classList.add('dir-btn')
-  dirBtn.classList.add('dir-south')
+  dirBtn.classList.add('vertical')
   dirBtn.innerHTML = '<span class="material-symbols-outlined">south</span>'
   dirBtn.addEventListener('click', () => {
-    const isSouth = dirBtn.classList.contains('dir-south')
+    const isSouth = dirBtn.classList.contains('vertical')
     if (isSouth) {
       dirBtn.innerHTML = '<span class="material-symbols-outlined">east</span>'
-      dirBtn.classList.remove('dir-south')
-      dirBtn.classList.add('dir-east')
+      dirBtn.classList.remove('vertical')
+      dirBtn.classList.add('horizontal')
       changeShipDir()
     } else {
       dirBtn.innerHTML = '<span class="material-symbols-outlined">south</span>'
-      dirBtn.classList.remove('dir-east')
-      dirBtn.classList.add('dir-south')
+      dirBtn.classList.remove('horizontal')
+      dirBtn.classList.add('vertical')
       changeShipDir()
     }
   })
@@ -30,7 +29,7 @@ export const dragDropMenu = (player) => {
 
   const dragDropShips = document.createElement('div')
   dragDropShips.classList.add('drag-drop-ships')
-  dragDropShips.classList.add('drag-drop-east')
+  dragDropShips.classList.add('horizontal')
 
   const ships = []
   const carrier = Ship(5)
@@ -52,14 +51,13 @@ export const dragDropMenu = (player) => {
     const shipContainer = document.createElement('div')
     shipContainer.classList.add('dd-ship')
     shipContainer.setAttribute('draggable', true)
+    shipContainer.setAttribute('data-ship-id', ship.getID())
+    shipContainer.addEventListener('dragstart', (event) => {
+      event.dataTransfer.setData('text/plain', ship.getID())
+    })
     for(let i = 0; i < ship.getLength(); i++) {
       const shipSquare = document.createElement('div')
       shipSquare.classList.add('ship-box')
-      if(i === 0) {
-        shipSquare.addEventListener('dragstart', (event) => {
-          event.dataTransfer.setData('text/plain', ship.getID())
-        })
-      }
       shipContainer.appendChild(shipSquare)
     }
     dragDropShips.appendChild(shipContainer)
@@ -73,19 +71,51 @@ export const dragDropMenu = (player) => {
 const changeShipDir = () => {
   const shipContainer = document.querySelector('.drag-drop-ships')
   const ships = document.querySelectorAll('.dd-ship')
-  if(shipContainer.classList.contains('drag-drop-south')) {
-    shipContainer.classList.remove('drag-drop-south')
-    shipContainer.classList.add('drag-drop-east')
+  if(shipContainer.classList.contains('vertical')) {
+    shipContainer.classList.remove('vertical')
+    shipContainer.classList.add('horizontal')
     shipContainer.style.flexDirection = 'column'
     ships.forEach(ship => {
       ship.style.flexDirection = 'row'
     })
   } else {
-    shipContainer.classList.remove('drag-drop-east')
-    shipContainer.classList.add('drag-drop-south')
+    shipContainer.classList.remove('horizontal')
+    shipContainer.classList.add('vertical')
     shipContainer.style.flexDirection = 'row'
     ships.forEach(ship => {
       ship.style.flexDirection = 'column'
     })
   }
+}
+
+const dragDropBoard = (name, className) => {
+  const board = document.createElement('div')
+  board.classList.add(className)
+  board.innerText = name
+  for(let i = 0; i < 10; i++) {
+    let row = document.createElement('div')
+    row.classList.add('board-row')
+    for(let j = 0; j < 10; j++) {
+      let square = document.createElement('div')
+      square.classList.add('square')
+      square.addEventListener('dragover', (event) => {
+        event.preventDefault()
+      })
+      square.addEventListener('drop', (event) => {
+        event.preventDefault()
+        const shipID = event.dataTransfer.getData('text/plain')
+        const shipLength = document.querySelector(`[data-ship-id="${shipID}"]`).children.length
+        const shipDir = document.querySelector('.drag-drop-ships').classList.contains('horizontal') ? 'horizontal' : 'vertical'
+        if(shipDir === 'horizontal' && (shipLength + j) <= 10) {
+          console.log(i, j)
+        } else if(shipDir === 'vertical' && (shipLength + i) <= 10) {
+          console.log(i, j)
+        }
+
+      })
+      row.appendChild(square)
+    }
+    board.appendChild(row)
+  }
+  return board
 }
