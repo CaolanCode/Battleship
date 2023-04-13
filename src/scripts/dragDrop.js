@@ -98,6 +98,7 @@ const dragDropBoard = (name, className) => {
     for(let j = 0; j < 10; j++) {
       let square = document.createElement('div')
       square.classList.add('square')
+      square.classList.add('water')
       square.addEventListener('dragover', (event) => {
         event.preventDefault()
       })
@@ -108,14 +109,48 @@ const dragDropBoard = (name, className) => {
         const shipDir = document.querySelector('.drag-drop-ships').classList.contains('horizontal') ? 'horizontal' : 'vertical'
         if(shipDir === 'horizontal' && (shipLength + j) <= 10) {
           console.log(i, j)
+          if(checkSpace(i, j, shipLength, shipDir)) placeShip(i, j, shipLength, shipDir)
         } else if(shipDir === 'vertical' && (shipLength + i) <= 10) {
-          console.log(i, j)
+          console.log(i)
         }
-
       })
       row.appendChild(square)
     }
     board.appendChild(row)
   }
   return board
+}
+
+const checkSpace = (i, j, shipLength, shipDir) => {
+  const board = document.querySelector('.player-board')
+  const rows = board.querySelectorAll('.board-row')
+  if(shipDir === 'horizontal') {
+    for(let k = i; k <= i; k++) {
+      const squares = rows[k].querySelectorAll('.square')
+      for(let l = j; l < (shipLength + j); l++) {
+        console.log(squares[l])
+        if(!squares[l].classList.contains('.water')) {
+          return false
+        } 
+      }
+    }
+  }
+  return true
+}
+
+const placeShip = (i, j, shipLength, shipDir) => {
+  const board = document.querySelector('.player-board')
+  const rows = board.querySelectorAll('.board-row')
+  if(shipDir === 'horizontal') {
+    for(let k = i; k <= i; k++) {
+      const squares = rows[k].querySelectorAll('.square')
+      console.log(k)
+      for(let l = j; l < (shipLength + j); l++) {
+        console.log(l)
+        squares[l].classList.remove('water')
+        squares[l].classList.add('ship-box')
+      }
+    }
+  }
+  
 }
