@@ -1,11 +1,27 @@
 import Ship from "./ship"
 
 export const dragDropMenu = (player) => {
+  const ships = []
+  const carrier = Ship(5)
+  ships.push(carrier)
+  const battleship = Ship(4)
+  ships.push(battleship)
+  const destroyer = Ship(3)
+  ships.push(destroyer)
+  const submarine1 = Ship(2)
+  ships.push(submarine1)
+  const submarine2 = Ship(2)
+  ships.push(submarine2)
+  const patrolBoat1 = Ship(1)
+  ships.push(patrolBoat1)
+  const patrolBoat2 = Ship(1)
+  ships.push(patrolBoat2)
+
   const container = document.createElement('div')
   container.classList.add('boards-container')
   const shipBtn = document.createElement('div')
   shipBtn.classList.add('ship-btn')
-  container.appendChild(dragDropBoard(player.getName(), 'player-board'))
+  container.appendChild(dragDropBoard(player, 'player-board', ships))
   
   const dirBtn = document.createElement('button')
   dirBtn.classList.add('dir-btn')
@@ -31,21 +47,6 @@ export const dragDropMenu = (player) => {
   dragDropShips.classList.add('drag-drop-ships')
   dragDropShips.classList.add('horizontal')
 
-  const ships = []
-  const carrier = Ship(5)
-  ships.push(carrier)
-  const battleship = Ship(4)
-  ships.push(battleship)
-  const destroyer = Ship(3)
-  ships.push(destroyer)
-  const submarine1 = Ship(2)
-  ships.push(submarine1)
-  const submarine2 = Ship(2)
-  ships.push(submarine2)
-  const patrolBoat1 = Ship(1)
-  ships.push(patrolBoat1)
-  const patrolBoat2 = Ship(1)
-  ships.push(patrolBoat2)
 
   ships.forEach(ship => {
     const shipContainer = document.createElement('div')
@@ -88,10 +89,10 @@ const changeShipDir = () => {
   }
 }
 
-const dragDropBoard = (name, className) => {
+const dragDropBoard = (player, className, ships) => {
   const board = document.createElement('div')
   board.classList.add(className)
-  board.innerText = name
+  board.innerText = player.getName()
   for(let i = 0; i < 10; i++) {
     let row = document.createElement('div')
     row.classList.add('board-row')
@@ -109,15 +110,19 @@ const dragDropBoard = (name, className) => {
         const shipDir = document.querySelector('.drag-drop-ships').classList.contains('horizontal') ? 'horizontal' : 'vertical'
         if(shipDir === 'vertical' && (shipLength + i) <= 10) {
           if(checkSpace(i, j, shipLength, shipDir)) {
-            placeShip(i, j, shipLength, shipDir)
-            const shipToRemove = document.querySelector(`[data-ship-id="${shipID}"]`);
-            shipToRemove.remove();
+            const ship = ships.find(ele => ele.getID() === shipID)
+            player.getBoard().placeShip(i, j, shipDir, ship)
+            positionShip(i, j, shipLength, shipDir)
+            const shipToRemove = document.querySelector(`[data-ship-id="${shipID}"]`)
+            shipToRemove.remove()
           }
         } else if(shipDir === 'horizontal' && (shipLength + j) <= 10) {
           if(checkSpace(i, j, shipLength, shipDir)) {
-            placeShip(i, j, shipLength, shipDir)
-            const shipToRemove = document.querySelector(`[data-ship-id="${shipID}"]`);
-            shipToRemove.remove();
+            const ship = ships.find(ele => ele.getID() === shipID)
+            player.getBoard().placeShip(i, j, shipDir, ship)
+            positionShip(i, j, shipLength, shipDir)
+            const shipToRemove = document.querySelector(`[data-ship-id="${shipID}"]`)
+            shipToRemove.remove()
           }
         }
       })
@@ -153,7 +158,7 @@ const checkSpace = (i, j, shipLength, shipDir) => {
   return true
 }
 
-const placeShip = (i, j, shipLength, shipDir) => {
+const positionShip = (i, j, shipLength, shipDir) => {
   const board = document.querySelector('.player-board')
   const rows = board.querySelectorAll('.board-row')
   if(shipDir === 'horizontal') {
