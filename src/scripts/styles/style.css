@@ -4,7 +4,6 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  border: 1px solid black;
   font-family: 'Black Ops One', cursive;
 }
 /* header*/
@@ -13,19 +12,34 @@
   align-items: center;
   justify-content: center;
   font-size: 3rem;
-  padding: 1vh 0;
+  height: 10vh;
+  border-bottom: 1px solid black;
 }
 
 /* gameboard */
 .boards-container {
   display: flex;
-  gap: 9vw;
   justify-content: center;
-  padding: 5vh 0;
+  align-items: center;
+  column-gap: 9vw;
   text-align: center;
+  height: 90vh;
+}
+body, .boards-container {
+  background: linear-gradient(to right, #87cefa, #0000cd );
+  width: 100vw;
+}
+.player-board, .computer-board, .ship-btn {
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.6)
+}
+.player-board, .computer-board {
+  color: white;
 }
 .board-row{
   display: flex;
+}
+.square {
+  background: white;
 }
 .square, .ship-box {
   height: 2vw;
@@ -35,25 +49,14 @@
 .ship-box{
   background: gray;
 }
-.hit{
+.square, .ship-box {
+  border: 1px solid black;
+}
+.hit, .computer-board{
   background: red;
 }
-.miss{
+.miss, .player-board{
   background: blue;
-}
-
-/* ships */
-.ships-container {
-  display: flex;
-  gap: 3vw;
-  justify-content: center;
-}
-.ship-model-container {
-  display: flex;
-  gap: .5vw;
-}
-.ship {
-  height: max-content;
 }
 
 /* controls */
@@ -71,18 +74,62 @@
 .name-input {
   grid-column: 1 / span 2;
   text-align: center;
+  border: none;
 }
-.random-ships-btn, .drag-drop-btn, .dir-btn {
+.control-btn, .dir-btn span {
   cursor: pointer;
+}
+.control-btn, .dir-btn, .dd-ship {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3)
+}
+.control-btn, .dir-btn {
+  border: none;
+}
+.header, .control-btn {
+  background: #4E4E4C;
+  color: white;
+}
+.control-btn:hover {
+  background: #454545;
 }
 
 /* drag drop ships */
-.dd-ship, .drag-drop-ships, .ship-btn {
+.ship-btn, .drag-drop-ships, .dd-ship {
   display: flex;
 }
 .drag-drop-ships, .ship-btn {
   align-items: center;
   justify-content: center;
-  gap: 1vh;
   flex-direction: column;
+}
+.ship-btn {
+  gap: 1vh;
+  background: rgba(255, 255, 255, 0.5);
+  padding: 2vh;
+}
+.drag-drop-ships {
+  gap: 0.5vh;
+}
+.dir-btn {
+  height: 4vh;
+  width: 4vh;
+}
+.dir-btn span {
+  height: 100%;
+  width: 100%;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dir-btn span:hover {
+  background-color: #E1D9D1;
+}
+/* winner notice */
+.winner-notice {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3rem;
 }

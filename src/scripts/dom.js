@@ -114,13 +114,13 @@ export const startControls = () => {
   container.appendChild(nameInput)
 
   const randomPosBtn = document.createElement('button')
-  randomPosBtn.classList.add('random-ships-btn')
+  randomPosBtn.classList.add('control-btn')
   randomPosBtn.innerText = 'Random'
   randomPosBtn.addEventListener('click', playerRandomShips)
   container.appendChild(randomPosBtn)
 
   const dragDropBtn = document.createElement('button')
-  dragDropBtn.classList.add('drag-drop-btn')
+  dragDropBtn.classList.add('control-btn')
   dragDropBtn.innerText = 'Drag-&-Drop'
   dragDropBtn.addEventListener('click', dragDropShips)
   container.appendChild(dragDropBtn)
