@@ -86,29 +86,26 @@ const Gameboard = () => {
 }
 
 const getOuterBuffer = (i, j, size, dir) => {
-  let topOuter 
-  let bottomOuter
-  let leftOuter
-  let rightOuter
+  let upper, lower, left, right
 
-  if(i === 0) topOuter = 0 
-  else topOuter = i - 1 
-  if(j === 0) leftOuter = 0
-  else leftOuter = j - 1
+  if(i === 0) upper = 0 
+  else upper = i - 1 
+  if(j === 0) left = 0
+  else left = j - 1
 
   if(dir === 'S') {
-    if((i + size) >= 8) bottomOuter = 9
-    else bottomOuter = i + size
-    if(j === 9) rightOuter = 9
-    else rightOuter = j + 1
+    if((i + size) >= 8) lower = 9
+    else lower = i + size
+    if(j === 9) right = 9
+    else right = j + 1
   } else {
-    if(i === 9) bottomOuter = 9
-    else bottomOuter = i + 1
-    if((j + size) >= 8) rightOuter = 9
-    else rightOuter = j + size
+    if(i === 9) lower = 9
+    else lower = i + 1
+    if((j + size) >= 8) right = 9
+    else right = j + size
   }
 
-  return [topOuter, bottomOuter, leftOuter, rightOuter]
+  return [upper, lower, left, right]
 }
 export default Gameboard
 

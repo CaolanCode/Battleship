@@ -159,4 +159,39 @@ const placeShip = (i, j, shipLength, shipDir) => {
       }
     }
   }
+  bufferShip(i, j, shipLength, shipDir)
+}
+
+const bufferShip = (i, j, shipLength, shipDir) => {
+  let upper, lower, left, right
+
+  if(i === 0) upper = 0 
+  else upper = i - 1 
+  if(j === 0) left = 0
+  else left = j - 1
+
+  if(shipDir === 'vertical') {
+    if((i + shipLength) >= 8) lower = 9
+    else lower = i + shipLength
+    if(j === 9) right = 9
+    else right = j + 1
+  } else {
+    if(i === 9) lower = 9
+    else lower = i + 1
+    if((j + shipLength) >= 8) right = 9
+    else right = j + shipLength
+  }
+
+  console.log(upper, lower, left, right)
+  const board = document.querySelector('.player-board')
+  const rows = board.querySelectorAll('.board-row')
+  for(let k = upper; k <= lower; k++) {
+    const squares = rows[k].querySelectorAll('.square')
+    for(let l = left; l <= right; l++) {
+      if(squares[l].classList.contains('water')) {
+        squares[l].classList.remove('water')
+        squares[l].classList.add('buffer')
+      }
+    }
+  }
 }
