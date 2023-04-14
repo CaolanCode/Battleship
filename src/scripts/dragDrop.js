@@ -107,11 +107,12 @@ const dragDropBoard = (name, className) => {
         const shipID = event.dataTransfer.getData('text/plain')
         const shipLength = document.querySelector(`[data-ship-id="${shipID}"]`).children.length
         const shipDir = document.querySelector('.drag-drop-ships').classList.contains('horizontal') ? 'horizontal' : 'vertical'
-        if(shipDir === 'horizontal' && (shipLength + j) <= 10) {
-          console.log(i, j)
-          if(checkSpace(i, j, shipLength, shipDir)) placeShip(i, j, shipLength, shipDir)
-        } else if(shipDir === 'vertical' && (shipLength + i) <= 10) {
-          console.log(i)
+        if((shipLength + i) <= 10 && (shipLength + j) <= 10) {
+          if(checkSpace(i, j, shipLength, shipDir)) {
+            placeShip(i, j, shipLength, shipDir)
+            const shipToRemove = document.querySelector(`[data-ship-id="${shipID}"]`);
+            shipToRemove.remove();
+          }
         }
       })
       row.appendChild(square)
@@ -128,8 +129,7 @@ const checkSpace = (i, j, shipLength, shipDir) => {
     for(let k = i; k <= i; k++) {
       const squares = rows[k].querySelectorAll('.square')
       for(let l = j; l < (shipLength + j); l++) {
-        console.log(squares[l])
-        if(!squares[l].classList.contains('.water')) {
+        if(!squares[l].classList.contains('water')) {
           return false
         } 
       }
@@ -144,13 +144,19 @@ const placeShip = (i, j, shipLength, shipDir) => {
   if(shipDir === 'horizontal') {
     for(let k = i; k <= i; k++) {
       const squares = rows[k].querySelectorAll('.square')
-      console.log(k)
       for(let l = j; l < (shipLength + j); l++) {
-        console.log(l)
+        squares[l].classList.remove('water')
+        squares[l].classList.add('ship-box')
+      }
+    }
+  } else if(shipDir === 'vertical') {
+    console.log(shipLength + i)
+    for(let k = i; k < (shipLength + i); k++) {
+      const squares = rows[k].querySelectorAll('.square')
+      for(let l = j; l <= j; l++) {
         squares[l].classList.remove('water')
         squares[l].classList.add('ship-box')
       }
     }
   }
-  
 }
