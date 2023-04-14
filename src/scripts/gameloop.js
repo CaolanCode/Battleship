@@ -12,18 +12,6 @@ const getPlayer = () => {
   return player
 }
 
-const randomComputer = () => {
-  const computer = Player('Computer')
-  computer.getBoard().randomShip(5)
-  computer.getBoard().randomShip(4)
-  computer.getBoard().randomShip(3)
-  computer.getBoard().randomShip(2)
-  computer.getBoard().randomShip(2)
-  computer.getBoard().randomShip(1)
-  computer.getBoard().randomShip(1)
-  return computer
-}
-
 export const playerRandomShips = () => {
   const player = getPlayer()
 
@@ -44,15 +32,20 @@ export const playerRandomShips = () => {
   player.getBoard().randomShip(1)
   fillBoard(player.getBoard(), playerBoard)
 
-  const computer = randomComputer()
+  const computer = Player('Computer')
+  computer.getBoard().randomShip(5)
+  computer.getBoard().randomShip(4)
+  computer.getBoard().randomShip(3)
+  computer.getBoard().randomShip(2)
+  computer.getBoard().randomShip(2)
+  computer.getBoard().randomShip(1)
+  computer.getBoard().randomShip(1)
+
   setListeners(player, computer)
 }
 
 export const dragDropShips = () => {
   const player = getPlayer()
-
-  const computerBoard = document.querySelector('.computer-board')
-  const computer = randomComputer()
 
   document.body.appendChild(dragDropMenu(player))
 }

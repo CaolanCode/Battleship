@@ -1,4 +1,6 @@
 import Ship from "./ship"
+import { fillBoard, createBoard, setListeners } from "./dom"
+import Player from "./player"
 
 export const dragDropMenu = (player) => {
   const ships = []
@@ -115,6 +117,7 @@ const dragDropBoard = (player, className, ships) => {
             positionShip(i, j, shipLength, shipDir)
             const shipToRemove = document.querySelector(`[data-ship-id="${shipID}"]`)
             shipToRemove.remove()
+            if(document.querySelector('.drag-drop-ships').innerHTML.trim() === "") startGame(player)
           }
         } else if(shipDir === 'horizontal' && (shipLength + j) <= 10) {
           if(checkSpace(i, j, shipLength, shipDir)) {
@@ -123,6 +126,7 @@ const dragDropBoard = (player, className, ships) => {
             positionShip(i, j, shipLength, shipDir)
             const shipToRemove = document.querySelector(`[data-ship-id="${shipID}"]`)
             shipToRemove.remove()
+            if(document.querySelector('.drag-drop-ships').innerHTML.trim() === "") startGame(player)
           }
         }
       })
@@ -207,3 +211,25 @@ const bufferShip = (i, j, shipLength, shipDir) => {
     }
   }
 }
+
+const startGame = (player) => {
+  const boardsContainer = document.querySelector('.boards-container')
+  boardsContainer.innerHTML = ""
+  boardsContainer.appendChild(createBoard(player.getName(), 'player-board'))
+  boardsContainer.appendChild(createBoard('Computer', 'computer-board'))
+  document.body.appendChild(boardsContainer)
+
+  const playerBoard = document.querySelector('.player-board')
+  fillBoard(player.getBoard(), playerBoard)
+
+  const computer = Player('Computer')
+  computer.getBoard().randomShip(5)
+  computer.getBoard().randomShip(4)
+  computer.getBoard().randomShip(3)
+  computer.getBoard().randomShip(2)
+  computer.getBoard().randomShip(2)
+  computer.getBoard().randomShip(1)
+  computer.getBoard().randomShip(1)
+
+  setListeners(player, computer)
+} 
