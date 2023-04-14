@@ -184,21 +184,15 @@ const positionShip = (i, j, shipLength, shipDir) => {
 const bufferShip = (i, j, shipLength, shipDir) => {
   let upper, lower, left, right
 
-  if(i === 0) upper = 0 
-  else upper = i - 1 
-  if(j === 0) left = 0
-  else left = j - 1
+  i === 0 ? upper = 0 : upper = i - 1
+  j === 0 ? left = 0 : left = j - 1
 
   if(shipDir === 'vertical') {
-    if((i + shipLength) >= 8) lower = 9
-    else lower = i + shipLength
-    if(j === 9) right = 9
-    else right = j + 1
+    i + shipLength >= 8 ? lower = 9 : lower = i + shipLength
+    j === 9 ? right = 9 : right = j + 1
   } else {
-    if(i === 9) lower = 9
-    else lower = i + 1
-    if((j + shipLength) >= 8) right = 9
-    else right = j + shipLength
+    i === 9 ? lower = 9 : lower = i + 1
+    j + shipLength >= 8 ? right = 9 : right = j + shipLength
   }
 
   const board = document.querySelector('.player-board')

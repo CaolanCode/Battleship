@@ -88,21 +88,15 @@ const Gameboard = () => {
 const getOuterBuffer = (i, j, size, dir) => {
   let upper, lower, left, right
 
-  if(i === 0) upper = 0 
-  else upper = i - 1 
-  if(j === 0) left = 0
-  else left = j - 1
+  i === 0 ? upper = 0 : upper = i - 1
+  j === 0 ? left = 0 : left = j - 1
 
   if(dir === 'S') {
-    if((i + size) >= 8) lower = 9
-    else lower = i + size
-    if(j === 9) right = 9
-    else right = j + 1
+    i + size >= 8 ? lower = 9 : lower = i + size
+    j === 9 ? right = 9 : right = j + 1 
   } else {
-    if(i === 9) lower = 9
-    else lower = i + 1
-    if((j + size) >= 8) right = 9
-    else right = j + size
+    i === 9 ? lower = 9 : lower = i + 1
+    i + size >= 8 ? right = 9 : right = j + size
   }
 
   return [upper, lower, left, right]
