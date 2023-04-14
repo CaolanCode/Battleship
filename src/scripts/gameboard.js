@@ -35,7 +35,9 @@ const Gameboard = () => {
       const ship = ships.find((item) => item.getID() === gameboard[i][j])
       ship.hit()
       if(ship.isSunk()) ships = ships.filter(item => item !== ship)
+      return true
     }
+    return false
   } 
 
   const randomShip = (size) => {

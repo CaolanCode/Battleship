@@ -12,19 +12,19 @@ describe('Gameboard Test', () => {
     const ship = Ship(3)
     gameboard.placeShip(0, 0, 'S', ship)
     const board = gameboard.getBoard()
-    expect(board[0][0]).toBe(ship.getNumber())
-    expect(board[1][0]).toBe(ship.getNumber())
-    expect(board[2][0]).toBe(ship.getNumber())
+    expect(board[0][0]).toBe(ship.getID())
+    expect(board[1][0]).toBe(ship.getID())
+    expect(board[2][0]).toBe(ship.getID())
   })
 
   test('Create ship facing East', () => {
     const ship = Ship(4)
     gameboard.placeShip(0, 2, 'E', ship)
     const board = gameboard.getBoard()
-    expect(board[0][2]).toBe(ship.getNumber())
-    expect(board[0][3]).toBe(ship.getNumber())
-    expect(board[0][4]).toBe(ship.getNumber())
-    expect(board[0][5]).toBe(ship.getNumber())
+    expect(board[0][2]).toBe(ship.getID())
+    expect(board[0][3]).toBe(ship.getID())
+    expect(board[0][4]).toBe(ship.getID())
+    expect(board[0][5]).toBe(ship.getID())
   })
 
   test('Attack ship', () => {

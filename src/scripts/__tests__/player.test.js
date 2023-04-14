@@ -2,25 +2,25 @@ import Player from "../player";
 
 describe('Player Test', () => {
   
-  let player1
+  let player
   let computer
   beforeEach(() => {
-    player1 = Player('Player')
+    player = Player('Player')
     computer = Player('Computer')
   })
 
   test('Create two players, check names', () => {
-    expect(player1.getName()).toBe('Player')
+    expect(player.getName()).toBe('Player')
     expect(computer.getName()).toBe('Computer')
   })
 
   test('Check recorded shots', () => {
-    player1.attack(0, 0, computer)
-    expect(player1.checkShots(0, 0)).toBe(true)
+    player.attack(0, 0, computer)
+    expect(player.checkShots(0, 0)).toBe(true)
   })
 
   test('Check computer shot', () => {
-    const shot = computer.randomAttack()
+    const shot = computer.randomAttack(player)
     expect(computer.checkShots(shot[0], shot[1])).toBe(true)
   })
 })
