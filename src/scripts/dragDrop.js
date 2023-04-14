@@ -107,7 +107,13 @@ const dragDropBoard = (name, className) => {
         const shipID = event.dataTransfer.getData('text/plain')
         const shipLength = document.querySelector(`[data-ship-id="${shipID}"]`).children.length
         const shipDir = document.querySelector('.drag-drop-ships').classList.contains('horizontal') ? 'horizontal' : 'vertical'
-        if((shipLength + i) <= 10 && (shipLength + j) <= 10) {
+        if(shipDir === 'vertical' && (shipLength + i) <= 10) {
+          if(checkSpace(i, j, shipLength, shipDir)) {
+            placeShip(i, j, shipLength, shipDir)
+            const shipToRemove = document.querySelector(`[data-ship-id="${shipID}"]`);
+            shipToRemove.remove();
+          }
+        } else if(shipDir === 'horizontal' && (shipLength + j) <= 10) {
           if(checkSpace(i, j, shipLength, shipDir)) {
             placeShip(i, j, shipLength, shipDir)
             const shipToRemove = document.querySelector(`[data-ship-id="${shipID}"]`);
@@ -134,6 +140,15 @@ const checkSpace = (i, j, shipLength, shipDir) => {
         } 
       }
     }
+  } else if(shipDir === 'vertical') {
+    for(let k = i; k < (shipLength + i); k++) {
+      const squares = rows[k].querySelectorAll('.square')
+      for(let l = j; l <= j; l++) {
+        if(!squares[l].classList.contains('water')) {
+          return false
+        } 
+      }
+    }
   }
   return true
 }
@@ -150,7 +165,6 @@ const placeShip = (i, j, shipLength, shipDir) => {
       }
     }
   } else if(shipDir === 'vertical') {
-    console.log(shipLength + i)
     for(let k = i; k < (shipLength + i); k++) {
       const squares = rows[k].querySelectorAll('.square')
       for(let l = j; l <= j; l++) {
@@ -182,7 +196,6 @@ const bufferShip = (i, j, shipLength, shipDir) => {
     else right = j + shipLength
   }
 
-  console.log(upper, lower, left, right)
   const board = document.querySelector('.player-board')
   const rows = board.querySelectorAll('.board-row')
   for(let k = upper; k <= lower; k++) {
