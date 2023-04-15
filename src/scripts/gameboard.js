@@ -50,7 +50,7 @@ const Gameboard = () => {
       dir = Math.random() < 0.5 ? 'horizontal' : 'vertical'
       i = Math.floor(Math.random() * 10)
       j = Math.floor(Math.random() * 10)
-      if(dir === 'horizontal') {
+      if(dir === 'vertical') {
         if((i + size) > 9) i = 9 - size
         for(let k = i; k <= i + size; k++) {
           if(gameboard[k][j] !== 'water') {
@@ -93,7 +93,7 @@ const getOuterBuffer = (i, j, size, dir) => {
   i === 0 ? upper = 0 : upper = i - 1
   j === 0 ? left = 0 : left = j - 1
 
-  if(dir === 'horizontal') {
+  if(dir === 'vertical') {
     i + size >= 8 ? lower = 9 : lower = i + size
     j === 9 ? right = 9 : right = j + 1 
   } else {
