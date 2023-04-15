@@ -8,7 +8,7 @@ const Gameboard = () => {
   }
 
   const placeShip = (i, j, dir, ship) => { 
-    if(dir === 'S') {
+    if(dir === 'vertical') {
       for(let k = 0; k < ship.getLength(); k++) {
         gameboard[i+k][j] = ship.getID()
       }
@@ -47,10 +47,10 @@ const Gameboard = () => {
     let allEmpty = false 
     do {
       squareEmpty = true
-      dir = Math.random() < 0.5 ? 'E' : 'S'
+      dir = Math.random() < 0.5 ? 'horizontal' : 'vertical'
       i = Math.floor(Math.random() * 10)
       j = Math.floor(Math.random() * 10)
-      if(dir === 'S') {
+      if(dir === 'horizontal') {
         if((i + size) > 9) i = 9 - size
         for(let k = i; k <= i + size; k++) {
           if(gameboard[k][j] !== 'water') {
@@ -93,7 +93,7 @@ const getOuterBuffer = (i, j, size, dir) => {
   i === 0 ? upper = 0 : upper = i - 1
   j === 0 ? left = 0 : left = j - 1
 
-  if(dir === 'S') {
+  if(dir === 'horizontal') {
     i + size >= 8 ? lower = 9 : lower = i + size
     j === 9 ? right = 9 : right = j + 1 
   } else {
